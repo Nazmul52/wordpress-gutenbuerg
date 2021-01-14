@@ -1,9 +1,11 @@
 import block_icons from '../icon/index';
-
+import './editor.scss';
 
 const { registerBlockType }  = wp.blocks;
 const {__}                   = wp.i18n;
-const { InspectorControls }  = wp.editor;
+const { InspectorControls, BlockControls,
+        AlignmentToolbar, BlockAlignmentToolbar
+    }                       = wp.editor;
 const { PanelBody, PanelRow, TextControl, SelectControl,
 } = wp.components;
 
@@ -50,8 +52,22 @@ wp.blocks.registerBlockType( 'udemy/recipe', {
             type:           'string',
             source:         'text',
             selector:       '.meal-type -ph',
-        }
+        },
+        text_alignment: {
+            type:               'string'
+        },
 
+        block_alignment: {
+            type:               'string',
+            default:            'wide'
+            }
+
+    },
+    getEditWrapperProps: ({ block_alignment }) => {
+        if('left' === block_alignment || 'right' === block_alignment
+         || 'full' === block_alignment){
+             return { 'data-align': block_alignment};
+         }
     },
     edit: (props) => {
         return [
@@ -111,7 +127,22 @@ wp.blocks.registerBlockType( 'udemy/recipe', {
                 </PanelBody>
             </InspectorControls>,
             <div className={ props.className }>
-                <ul class="list-unstyled">
+                <BlockControls>
+                    <BlockAlignmentToolbar
+                        value={ props.attributes.block_alignment }
+                        onChange={(new_val) => {
+                            props.setAttributes({block_alignment: new_val});
+                        }}
+                    />
+                    <AlignmentToolbar
+                     value={props.attributes.text_alignment}
+                    onChange={ (new_val) => {
+                        props.setAttributes({ text_alignment: new_val});
+                    }}>
+
+                    </AlignmentToolbar>
+                </BlockControls>
+                <ul class="list-unstyled" style={ {textAlign: props.attributes.text_alignment} }>
                     <li>
                         <strong>{ __('Ingredients', 'recipe' ) } : </strong> <span className="ingredients-ph">{ props.attributes.ingredients }
                        
@@ -126,8 +157,8 @@ wp.blocks.registerBlockType( 'udemy/recipe', {
     },
     save: (props) => {
         return (
-            <div>
-            <ul class="list-unstyled">
+            <div className={ `align${props.attributes.block_alignment}`}>
+            <ul class="list-unstyled" style={ {textAlign: props.attributes.text_alignment} }>
                 <li>
                     <strong>{ __('Ingredients', 'recipe' ) } : </strong> <span className="ingredients-ph">{ props.attributes.ingredients }
                    

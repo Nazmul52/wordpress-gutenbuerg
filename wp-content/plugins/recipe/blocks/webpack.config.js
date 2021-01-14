@@ -1,6 +1,10 @@
 const path              =   require( 'path' );
 const webpack           =   require( 'webpack' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 
+const editor_css_plugin   =  new MiniCssExtractPlugin({
+    filename:               'blocks-[name].css'
+});
 module.exports          =   {
     entry:                  './app/index.js',
     output: {
@@ -16,7 +20,18 @@ module.exports          =   {
                 test:       /\.js$/,
                 exclude:    /(node_modules)/,
                 use:        'babel-loader',
+            },
+            {
+                test:       /\.(sa|sc|c)ss$/,
+                use:        [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ],
             }
         ]
-    }
+    },
+    plugins: [
+        editor_css_plugin
+    ]
 };

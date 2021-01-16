@@ -10,7 +10,7 @@ registerBlockType( 'udemy/rich-text', {
     category:                           'common',
     icon:                               block_icons.wapuu,
     attributes: {
-        nessage: {
+        message: {
             type:                       'array',
             source:                     'children',
             selector:                   '.message'
@@ -25,9 +25,9 @@ registerBlockType( 'udemy/rich-text', {
                     multiline="p"
                     placeholder={ __('Add your contest here.', 'recipe')}
                     onChange={ (new_val) => {
-                        props.attributes({ mesaage: new_val});
+                        props.setAttributes({ message: new_val});
                     }}
-                    value={ props.attributes.mesaage}
+                    value={ props.attributes.message}
                 />
             </div>
         );

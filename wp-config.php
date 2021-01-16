@@ -26,7 +26,7 @@ define( 'DB_NAME', 'wp_udemy' );
 define( 'DB_USER', 'root' );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', 'toor' );
+define( 'DB_PASSWORD', 'Nazmul@4252' );
 
 /** MySQL hostname */
 define( 'DB_HOST', 'localhost' );

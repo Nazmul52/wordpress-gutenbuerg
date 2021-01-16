@@ -4,9 +4,13 @@ import classnames from 'classnames';
 
 
 const { registerBlockType }         =   wp.blocks;
-const { Card, CardBody, CardHeader, CheckboxControl }                    =   wp.components;
+const { Card, 
+    CardBody, 
+    CardHeader, 
+    CheckboxControl,
+    ColorPicker
+  }                    =   wp.components;
 const { __ }                        =   wp.i18n;
-const { useState }                      = wp.element;
 
 registerBlockType( 'udemy/color-control', {
     title:                              __( 'Card Example', 'recipe' ),
@@ -17,16 +21,24 @@ registerBlockType( 'udemy/color-control', {
      checked : {
          type:                  'boolean',
          default:                false,
+         
+     },
+     color: {
+         type:                  'object',
+         default:               '#f00',
          selector:              '.checkbox-data',
      }
     },
-    edit: ( props ) => {
+    edit: ( props) => {
         const toggle_color_mode = () => {
             props.setAttributes({
                 checked: !props.attributes.checked
             })
         };
+     
+        console.log(  props.attributes.color.hex );
         return (
+            
             <div className={props.className}>
               <Card>
                   <CardHeader>Design Card Example</CardHeader>
@@ -38,13 +50,19 @@ registerBlockType( 'udemy/color-control', {
                         checked={props.attributes.checked}
                         onChange={toggle_color_mode}
                     />
-
+                    <ColorPicker
+                        color={ props.attributes.color }
+                        onChangeComplete={ ( value ) => {
+                            props.setAttributes({ color : value});
+                        }}
+                        disableAlpha
+                    />
                   </CardBody>
               </Card>
 
               <div className="checkbox-data">
                     This is an example of a block with night mode.
-                    { props.attributes.checked.toString()}
+                    { props.attributes.color.hex}
                 </div>
             </div>
         )

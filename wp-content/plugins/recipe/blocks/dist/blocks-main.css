@@ -150,11 +150,11 @@ body {
 
 .glide__slide {
   text-align: center;
-  height: 150px;
-  line-height: 150px;
+  height: 250px;
+  line-height: 60px !important;
   color: #fff;
   background: #888585;
-  font-size: 1em;
+  font-size: 20px !important;
   font-weight: 900; }
 
 .glide__slide[class*="active"] {

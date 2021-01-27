@@ -1,6 +1,6 @@
 @import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
 
-// Optional Theme Stylesheet
+// // Optional Theme Stylesheet
 @import "node_modules/@glidejs/glide/src/assets/sass/glide.theme";
 
 body {
@@ -18,11 +18,11 @@ body {
   
   .glide__slide {
     text-align: center;
-    height: 150px;
-    line-height: 150px;
+    height: 250px;
+    line-height: 60px !important;
     color: #fff;
     background: rgb(136, 133, 133);
-    font-size: 1em;
+    font-size: 20px !important;
     font-weight: 900;
   }
   

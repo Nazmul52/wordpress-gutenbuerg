@@ -11,13 +11,15 @@ import Glide from "@glidejs/glide";
 
 
 
+const { RichText }                  =   wp.editor;
 
 const { registerBlockType }         =   wp.blocks;
 const { Card, 
     CardBody, 
     CardHeader, 
     CheckboxControl,
-    ColorPicker
+    ColorPicker,
+    Text
   }                    =   wp.components;
 const { __ }                        =   wp.i18n;
 
@@ -40,7 +42,20 @@ registerBlockType( 'udemy/color-control', {
          type:                  'object',
          default:               '#f00',
          selector:              '.checkbox-data',
-     }
+     },
+
+     title : {
+       type:                    'string',
+       source:                     'children',
+       selector:                '.title'
+       
+     },
+     description : {
+      type:                    'array',
+      source:                     'children',
+      selector:                '.description'
+      
+    }
     },
     edit: ( props) => {
         const toggle_color_mode = () => {
@@ -49,22 +64,39 @@ registerBlockType( 'udemy/color-control', {
             })
         };
 
+       const  mountButton = () => {
+      
+        var glide=  new Glide(".glide", {
+          // peek: 50,
+          perView: 1,
+          type: "carousel",
   
-      setTimeout(function(){
-       new Glide(".glide", {
-            // peek: 50,
-            perView: 1,
-            type: "carousel",
-            autoplay: 4000
-          }).mount();
-       
-      }, 2000);
+        }, {startAt: 0});
 
+          glide.mount()
      
+      glide.update({ startAt: 1})
+
+
+         
+        }
+
+        const pauseButton = () => {
+          glide.pause();
+        
+        }
+          
+
+      // setTimeout(function(){
+     
+       
+      // }, 2000);
+
+ 
       
        
         return (
-          <div>
+          <div className={props.className}>
             <div class="glide">
                     <div class="glide__arrows" data-glide-el="controls">
                       <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
@@ -73,8 +105,57 @@ registerBlockType( 'udemy/color-control', {
                     </div>
                     <div class="glide__track" data-glide-el="track">
                       <ul class="glide__slides">
-                        <li class="glide__slide">0</li>
-                        <li class="glide__slide">1</li>
+                        <li class="glide__slide" >
+                        
+                          <RichText
+                            placeholder={ __('Add your title here.', 'recipe')}
+                            onChange={ (new_val) => {
+                              props.setAttributes({ title: new_val});
+                            }}
+
+                            value={ props.attributes.title}
+
+                          />
+
+                          
+                          <RichText 
+                          
+                          tagName="div"
+                          multilie="p"
+                           placeholder={ __('Add your description here.', 'recipe')}
+                           onChange={ (new_val) => {
+                            props.setAttributes({ description: new_val});
+                          }}
+
+                          value={ props.attributes.description}
+                          />
+
+                          
+                        </li>
+                        <li class="glide__slide">
+                        <RichText
+                            placeholder={ __('Add your title here.', 'recipe')}
+                            onChange={ (new_val) => {
+                              props.setAttributes({ title: new_val});
+                            }}
+
+                            value={ props.attributes.title}
+
+                          />
+
+                          
+                          <RichText 
+                          
+                          tagName="div"
+                          multilie="p"
+                           placeholder={ __('Add your description here.', 'recipe')}
+                           onChange={ (new_val) => {
+                            props.setAttributes({ description: new_val});
+                          }}
+
+                          value={ props.attributes.description}
+                          />
+                        </li>
                         <li class="glide__slide">2</li>
                       </ul>
                     </div>
@@ -84,6 +165,9 @@ registerBlockType( 'udemy/color-control', {
                       </button>
                     </div>
                   </div>
+                  <button class="btn btn-info" onClick={mountButton} >Mount</button>
+
+                  <button class="btn btn-info" onClick={pauseButton} >Pause</button>
           </div>
        
             // <div className={props.className}>
@@ -125,7 +209,7 @@ registerBlockType( 'udemy/color-control', {
     },
     save: ( props ) => {
         return (
-            <div>
+            <div className={props.className}>
              <div class="glide">
                     <div class="glide__arrows" data-glide-el="controls">
                       <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
@@ -134,8 +218,25 @@ registerBlockType( 'udemy/color-control', {
                     </div>
                     <div class="glide__track" data-glide-el="track">
                       <ul class="glide__slides">
-                        <li class="glide__slide">0</li>
-                        <li class="glide__slide">1</li>
+                        <li class="glide__slide">
+                          <div className="title">
+                            {props.attributes.title}
+                          </div>
+                          <div className="description">
+                            {props.attributes.description}
+                          </div>
+                          
+                        
+                        </li>
+                        <li class="glide__slide">
+                        <div className="title">
+                            {props.attributes.title}
+                          </div>
+                          <div className="description">
+                            {props.attributes.description}
+                          </div>
+                          
+                        </li>
                         <li class="glide__slide">2</li>
                       </ul>
                     </div>

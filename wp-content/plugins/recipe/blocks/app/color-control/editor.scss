@@ -3,6 +3,21 @@
 // // Optional Theme Stylesheet
 @import "node_modules/@glidejs/glide/src/assets/sass/glide.theme";
 
+.cta-container{
+  position: relative;
+  padding: 10px 20px;
+  .cta-overlay {
+    position: absolute;
+    inset: 0px;
+  }
+
+  * {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+}
+
 body {
     font-family: sans-serif;
   }

@@ -138,6 +138,17 @@
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing; }
 
+.cta-container {
+  position: relative;
+  padding: 10px 20px; }
+  .cta-container .cta-overlay {
+    position: absolute;
+    inset: 0px; }
+  .cta-container * {
+    position: relative;
+    z-index: 1;
+    text-align: center; }
+
 body {
   font-family: sans-serif; }
 

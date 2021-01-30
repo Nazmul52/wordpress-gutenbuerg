@@ -14,7 +14,10 @@ import Glide from "@glidejs/glide";
 const { RichText, 
         InspectorControls,
         ColorPalette,
-        MediaUpload
+        MediaUpload,
+        InnerBlocks,
+        BlockControls,
+        AlignmentToolbar
 }                  =   wp.editor;
 
 const { registerBlockType }         =   wp.blocks;
@@ -30,7 +33,7 @@ const { Card,
   }                    =   wp.components;
 const { __ }                        =   wp.i18n;
 
-  
+const ALLOWED_BLOCKS = ['core/button'];
  
 
 
@@ -79,6 +82,10 @@ registerBlockType( 'udemy/color-control', {
         source: 'html',
         selector: 'p'
       },
+      alignment:{
+        type: 'string',
+        default: 'none'
+      },
       bodyColor: {
         type:  'string',
         default: 'black'
@@ -106,7 +113,8 @@ registerBlockType( 'udemy/color-control', {
         bodyColor,
         backgroundImage,
         overlayColor,
-        overlayOpacity
+        overlayOpacity,
+        alignment
       } = attributes;
 
       function onChangeTitle(newTitle){
@@ -134,6 +142,10 @@ registerBlockType( 'udemy/color-control', {
 
       function onOverlayOpacityChange(newOpacity){
         setAttributes ({ overlayOpacity: newOpacity});
+      }
+
+      function onChangeAlignment(newAlignment){
+        setAttributes ({ alignment: newAlignment === undefined ? 'none' : newAlignment});
       }
 
         return ([
@@ -181,17 +193,19 @@ registerBlockType( 'udemy/color-control', {
                   max= { 1 }
                   step={ 0.05 }
                 />
+
+              
             </PanelBody>
             
           </InspectorControls>,
-          <div class="cta-container" style={{
+          <div className="cta-container" style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-reapet' 
           }}>
             <div className="cta-overlay" style={{background: overlayColor, opacity: overlayOpacity}}>
-
+          
             </div>
               <RichText key="editable" 
                         tagName="h2"
@@ -206,125 +220,15 @@ registerBlockType( 'udemy/color-control', {
                         placeholder="Your CTA Body"
                         value={body}
                         onChange={ onChangeBody }
-                        style = { { color: bodyColor } }
+                        style = { { color: bodyColor, textAlign: alignment } }
               />
+                <InnerBlocks allowedBlocks={ALLOWED_BLOCKS}/>
           </div>
           
         ]
           
 
-          // <div {...blockProps}>
-          //   <InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } />
-          // </div>
-          // <div className={props.className}>
-          //   <div class="glide">
-          //           <div class="glide__arrows" data-glide-el="controls">
-          //             <button class="glide__arrow glide__arrow--left" data-glide-dir="<">
-          //               Prev
-          //             </button>
-          //           </div>
-          //           <div class="glide__track" data-glide-el="track">
-          //             <ul class="glide__slides">
-          //               <li class="glide__slide" >
-                        
-          //                 <RichText
-          //                   placeholder={ __('Add your title here.', 'recipe')}
-          //                   onChange={ (new_val) => {
-          //                     props.setAttributes({ title: new_val});
-          //                   }}
-
-          //                   value={ props.attributes.title}
-
-          //                 />
-
-                          
-          //                 <RichText 
-                          
-          //                 tagName="div"
-          //                 multilie="p"
-          //                  placeholder={ __('Add your description here.', 'recipe')}
-          //                  onChange={ (new_val) => {
-          //                   props.setAttributes({ description: new_val});
-          //                 }}
-
-          //                 value={ props.attributes.description}
-          //                 />
-
-                          
-          //               </li>
-          //               <li class="glide__slide">
-          //               <RichText
-          //                   placeholder={ __('Add your title here.', 'recipe')}
-          //                   onChange={ (new_val) => {
-          //                     props.setAttributes({ title: new_val});
-          //                   }}
-
-          //                   value={ props.attributes.title}
-
-          //                 />
-
-                          
-          //                 <RichText 
-                          
-          //                 tagName="div"
-          //                 multilie="p"
-          //                  placeholder={ __('Add your description here.', 'recipe')}
-          //                  onChange={ (new_val) => {
-          //                   props.setAttributes({ description: new_val});
-          //                 }}
-
-          //                 value={ props.attributes.description}
-          //                 />
-          //               </li>
-          //               <li class="glide__slide">2</li>
-          //             </ul>
-          //           </div>
-          //           <div class="glide__arrows" data-glide-el="controls">
-          //             <button class="glide__arrow glide__arrow--right" data-glide-dir=">">
-          //               Next
-          //             </button>
-          //           </div>
-          //         </div>
-          //         <button class="btn btn-info" onClick={mountButton} >Mount</button>
-
-          //         <button class="btn btn-info" onClick={pauseButton} >Pause</button>
-          // </div>
-       
-            // <div className={props.className}>
-            //   <Card>
-            //       <CardHeader>Design Card Example</CardHeader>
-            //       <CardBody>
-            //       <CheckboxControl
-            //             heading="User"
-            //             label="Is author"
-            //             help="Is the user a author or not?"
-            //             checked={props.attributes.checked}
-            //             onChange={toggle_color_mode}
-            //         />
-            //         <ColorPicker
-            //             color={ props.attributes.color }
-            //             onChangeComplete={ ( value ) => {
-            //                 props.setAttributes({ color : value});
-            //             }}
-            //             disableAlpha
-            //         />
-
-
-
-
-
-
-            //       </CardBody>
-            //   </Card>
-
-            //    <div className="checkbox-data">
-            //         This is an example of a block with night mode.
-            //         { props.attributes.color.hex}
-            //     </div>
-
-                
-                
-            // </div>
+     
         )
     },
     save: ({attributes, setAttributes}) => {
@@ -336,11 +240,12 @@ registerBlockType( 'udemy/color-control', {
         bodyColor,
         backgroundImage,
         overlayColor,
-        overlayOpacity
+        overlayOpacity,
+        alignment
       } = attributes;
       
         return (
-          <div class="cta-container"  style={{
+          <div className="cta-container"  style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -350,9 +255,10 @@ registerBlockType( 'udemy/color-control', {
 
               </div>
             <h2 style={{color: titleColor}}>{title}</h2>
-            <RichText.Content style={{ color: bodyColor}} tagName="p" 
+            <RichText.Content style={{ color: bodyColor, textAlign: alignment}} tagName="p" 
                               value={body}
             />
+            <InnerBlocks.Content />
           </div>
         )
     }

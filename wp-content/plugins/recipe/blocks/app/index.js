@@ -6,3 +6,4 @@ import './inspector-controls';
 import './media-upload-block';
 import './color-control';
 import './hero-slider';
+import './child-slider';

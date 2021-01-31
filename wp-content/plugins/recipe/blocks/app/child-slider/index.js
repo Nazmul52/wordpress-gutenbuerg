@@ -24,12 +24,11 @@ const {
 
 const { __ }                        =   wp.i18n;
 
-const ALLOWED_BLOCKS = ['udemy/child-slider'];
 
-registerBlockType( 'udemy/hero-slider', { 
+registerBlockType( 'udemy/child-slider', { 
 
-    title:                              __( 'Hero Slider', 'recipe' ),
-    description:                        __( 'Hero Slider Description', 'recipe' ),
+    title:                              __( 'Child Slider', 'recipe' ),
+    description:                        __( 'Child Slider Description', 'recipe' ),
     category:                           'common',
     icon:                               block_icons.wapuu,
 
@@ -263,7 +262,6 @@ registerBlockType( 'udemy/hero-slider', {
             </div>
             
           
-            <InnerBlocks style={{marginTop: '150px'}}  allowedBlocks={ALLOWED_BLOCKS}/>    
         </div>
      
       
